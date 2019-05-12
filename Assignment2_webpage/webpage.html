@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="s3d-assignment-2">S3D: Assignment #2</h1>
+<p>The code for this assignment can be found <a href="...">here</a>.</p>
+<p>For this assignment, a simple scene was prepared in Unity. It is composed of:</p>
+<ul>
+<li>A terrain (from Unity);</li>
+<li>Water (from Unity's Standard Assets);</li>
+<li>Procedural rocks (from <a href="https://dccsillag.github.io/coursework/3dGraphicsSystems/Assignment1/index.html#rocks">Assignment 1</a>);</li>
+<li>Procedural vases (from <a href="https://dccsillag.github.io/coursework/3dGraphicsSystems/Assignment1/index.html#bowls-vases">Assignment 1</a>);</li>
+<li>And <a href="#growing-trees">procedural trees</a>, that grow over time (based on <a href="https://dccsillag.github.io/coursework/3dGraphicsSystems/Assignment1/index.html#bushes">the Bushes from Assignment 1</a>).</li>
+</ul>
+<h2 id="rocks">Rocks</h2>
+<p>The same algorithm was used, with the only addition of the UV mapping, which was simply done by mapping a triangle with vertices <span class="math inline">\(v_0\)</span>, <span class="math inline">\(v_1\)</span>, <span class="math inline">\(v_2\)</span> to <span class="math inline">\((0, 0)\)</span>, <span class="math inline">\((1, 0)\)</span>, <span class="math inline">\((1, 1)\)</span>.</p>
+<h2 id="vases">Vases</h2>
+<p>The same algorithm was used, and the UV mapping was simply <span class="math inline">\((\theta, t)\)</span> for every generated vertex.</p>
+<h2 id="growing-trees">Growing Trees</h2>
+<div class="figure">
+<img src="./tree_growing.gif" />
+
+</div>
+<p>The tree is based on <a href="https://dccsillag.github.io/coursework/3dGraphicsSystems/Assignment1/index.html#bushes">the Bushes from Assignment 1</a>, which are generated using a Stochastic L-System on an alphabet with turtle graphics interpretation. The one used there was</p>
+<p><span class="math display">\[\begin{array}{cclcl}
+\omega &amp; : &amp; \mathtt{A} \\
+p_0&#39;   &amp; : &amp; \mathtt{A} &amp; \xrightarrow{0.34} &amp; \mathtt{[\&amp;FLA]/////[\&amp;FLA]///////[FBA]} \\
+p_0&#39;&#39;  &amp; : &amp; \mathtt{A} &amp; \xrightarrow{0.33} &amp; \mathtt{[\&amp;LA]/////[\&amp;FLA]///////[FBA]} \\
+p_0&#39;&#39;&#39; &amp; : &amp; \mathtt{A} &amp; \xrightarrow{0.33} &amp; \mathtt{[\&amp;FLA]/////[\&amp;LA]} \\
+p_1    &amp; : &amp; \mathtt{F} &amp; \xrightarrow{}     &amp; \mathtt{S/////F} \\
+p_2    &amp; : &amp; \mathtt{S} &amp; \xrightarrow{}     &amp; \mathtt{FL} \\
+p_3    &amp; : &amp; \mathtt{L} &amp; \xrightarrow{}     &amp; \mathtt{[ \wedge \wedge \{-f+f+f-|-f+f+f \}]} \\
+p_4    &amp; : &amp; \mathtt{B} &amp; \xrightarrow{}     &amp; \mathtt{[-Fb]}
+\end{array}\]</span></p>
+<p>With the alphabet</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Symbol</th>
+<th align="right">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>F</code></td>
+<td align="right">Walk forward, drawing the path</td>
+</tr>
+<tr class="even">
+<td align="left"><code>f</code></td>
+<td align="right">Walk forward, but don't draw the path</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>+</code></td>
+<td align="right">Yaw left</td>
+</tr>
+<tr class="even">
+<td align="left"><code>-</code></td>
+<td align="right">Yaw right</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>&amp;</code></td>
+<td align="right">Pitch down</td>
+</tr>
+<tr class="even">
+<td align="left"><code>^</code></td>
+<td align="right">Pitch up</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>\</code></td>
+<td align="right">Roll left</td>
+</tr>
+<tr class="even">
+<td align="left"><code>/</code></td>
+<td align="right">Roll right</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>|</code></td>
+<td align="right">Turn around</td>
+</tr>
+<tr class="even">
+<td align="left"><code>[</code></td>
+<td align="right">Push turtle to stack</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>]</code></td>
+<td align="right">Pop turtle from stack</td>
+</tr>
+<tr class="even">
+<td align="left"><code>{</code></td>
+<td align="right">Start drawing a polygon</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>}</code></td>
+<td align="right">Finish drawing a polygon</td>
+</tr>
+<tr class="even">
+<td align="left"><code>A</code></td>
+<td align="right">Dummy symbol</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>B</code></td>
+<td align="right">Dummy symbol</td>
+</tr>
+<tr class="even">
+<td align="left"><code>S</code></td>
+<td align="right">Dummy symbol</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>L</code></td>
+<td align="right">Dummy symbol</td>
+</tr>
+<tr class="even">
+<td align="left"><code>b</code></td>
+<td align="right">A flower heading the turtle's direction, from <code>magnolia.obj</code></td>
+</tr>
+</tbody>
+</table>
+<p>Since the flower (the <code>b</code> instruction above) is simply a static mesh, we can't animate it growing. Also, since we want more of a tree than a bush, we add some forward instructions before the <code>A</code> symbol in the axiom. The resulting L-System is</p>
+<p><span class="math display">\[\begin{array}{cclcl}
+\omega &amp; : &amp; \mathtt{0$SA} \\
+p_0&#39;   &amp; : &amp; \mathtt{A} &amp; \xrightarrow{0.34} &amp; \mathtt{[\&amp;F\%LA]/////[\&amp;F\%LA]///////[F\%A]} \\
+p_0&#39;&#39;  &amp; : &amp; \mathtt{A} &amp; \xrightarrow{0.33} &amp; \mathtt{[\&amp;LA]/////[\&amp;F\%LA]///////[F\%A]} \\
+p_0&#39;&#39;&#39; &amp; : &amp; \mathtt{A} &amp; \xrightarrow{0.33} &amp; \mathtt{[\&amp;F\%LA]/////[\&amp;LA]} \\
+p_1    &amp; : &amp; \mathtt{F} &amp; \xrightarrow{}     &amp; \mathtt{S/////F} \\
+p_2    &amp; : &amp; \mathtt{S} &amp; \xrightarrow{}     &amp; \mathtt{FL} \\
+p_3    &amp; : &amp; \mathtt{L} &amp; \xrightarrow{}     &amp; \mathtt{[1 \wedge \wedge \{-f+f+f-|-f+f+f \}]} \\
+\end{array}\]</span></p>
+<p>With the alphabet</p>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="90%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Symbol</th>
+<th align="right">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>F</code></td>
+<td align="right">Walk forward, drawing the path</td>
+</tr>
+<tr class="even">
+<td align="left"><code>f</code></td>
+<td align="right">Walk forward, but don't draw the path</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>+</code></td>
+<td align="right">Yaw left</td>
+</tr>
+<tr class="even">
+<td align="left"><code>-</code></td>
+<td align="right">Yaw right</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>&amp;</code></td>
+<td align="right">Pitch down</td>
+</tr>
+<tr class="even">
+<td align="left"><code>^</code></td>
+<td align="right">Pitch up</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>\</code></td>
+<td align="right">Roll left</td>
+</tr>
+<tr class="even">
+<td align="left"><code>/</code></td>
+<td align="right">Roll right</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>|</code></td>
+<td align="right">Turn around</td>
+</tr>
+<tr class="even">
+<td align="left"><code>[</code></td>
+<td align="right">Push turtle to stack</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>]</code></td>
+<td align="right">Pop turtle from stack</td>
+</tr>
+<tr class="even">
+<td align="left"><code>{</code></td>
+<td align="right">Start drawing a polygon</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>}</code></td>
+<td align="right">Finish drawing a polygon</td>
+</tr>
+<tr class="even">
+<td align="left"><code>$</code></td>
+<td align="right">Add a face whose normal goes in the opposite direction of the turtle's direction vector</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>%</code></td>
+<td align="right">Add a face whose normal goes in the same direction as the turtle's direction vector</td>
+</tr>
+<tr class="even">
+<td align="left"><code>0</code></td>
+<td align="right">Set the texture to the tree bark</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>1</code></td>
+<td align="right">Set the texture to the leaf</td>
+</tr>
+<tr class="even">
+<td align="left"><code>A</code></td>
+<td align="right">Dummy symbol</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>S</code></td>
+<td align="right">Dummy symbol</td>
+</tr>
+<tr class="even">
+<td align="left"><code>L</code></td>
+<td align="right">Dummy symbol</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>We start by generating a list of instructions for our turtle, as if we were making a static mesh. The growing animation is accomplished by recreating a mesh from the instructions for each frame, but stopping each time after a certain amount of increasing steps.</p>
+<p>The parameters necessary are:</p>
+<ul>
+<li>Number of steps per &quot;Forward&quot; instruction;</li>
+<li>Number of steps to start at (usually 0)</li>
+<li>Maximum number of steps we want to progress at the time;</li>
+</ul>
+<p>Then, to generate a mesh for some frame where we have already progressed <span class="math inline">\(i\)</span> frames, we do as normal (starting from our origin), with the following exceptions:</p>
+<ul>
+<li>Forward: the amount to step, instead of simply being <span class="math inline">\(\delta\)</span> (step size), becomes <span class="math inline">\((\delta / n) \min \{m - i, n\},\)</span> with <span class="math inline">\(m\)</span> being the maximum number of steps to progress, <span class="math inline">\(i\)</span> the number of steps already progressed and <span class="math inline">\(n\)</span> the number of steps per &quot;Forward&quot; instruction. Finally, we step <span class="math inline">\(\min \{m - i, n\}\)</span>.</li>
+<li>Rotations: the shoulder (to not leave a gap into the mesh) should not be inserted if <span class="math inline">\(i \geq m\)</span> (where <span class="math inline">\(i\)</span> is the number of steps progressed so far and <span class="math inline">\(m\)</span> is the maximum number of steps to progress).</li>
+<li>Starting Polygons: (This is used to generate the leaves in the trees) When we start the polygon, we calculate a step size for it: <span class="math inline">\(\delta_0 = (\delta / n) \min \{m - i, n\}\)</span>. Whenever we use an instruction that will add an edge to the polygon, we use <span class="math inline">\(\delta_0\)</span> as our step size.</li>
+</ul>
+<p>Finally, to apply textures, we need an UV mapping to be applied to our mesh's faces. This way, the rendering engine knows which coordinate of the texture image to apply to that position in the mesh's surface.</p>
+<p>If the tree was static, the mapping would be quite simple; for each face, its vertices <span class="math inline">\(v_0\)</span>, <span class="math inline">\(v_1\)</span>, <span class="math inline">\(v_2\)</span> and <span class="math inline">\(v_3\)</span> have UVs <span class="math inline">\((0, 0)\)</span>, <span class="math inline">\((1, 0)\)</span>, <span class="math inline">\((1, 1)\)</span> and <span class="math inline">\((0, 1)\)</span>, respectively. However, it is growing; if we were to use the same mapping, the textures would move along with the branches, which would look quite strange. Instead, we use the mapping <span class="math inline">\((0, 0)\)</span>, <span class="math inline">\(((1/n) \min \{m - i, n\}, 0)\)</span>, <span class="math inline">\(((1/n) \min \{m - i, n\}, 1)\)</span>, <span class="math inline">\((0, 1)\)</span>.</p>
+<h2 id="screenshots">Screenshots</h2>
+<div class="figure">
+<img src="./normal_island.png" />
+
+</div>
+<div class="figure">
+<img src="./one_tree_island0.png" />
+
+</div>
+<div class="figure">
+<img src="./rock_island.png" />
+
+</div>
+<div class="figure">
+<img src="./three_tree_island.png" />
+
+</div>
+<div class="figure">
+<img src="./scene_whole.png" />
+
+</div>
+</body>
+</html>
