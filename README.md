@@ -1,7 +1,7 @@
 S3D: Assignment #2
 ===
 
-The code for this assignment can be found [here](...).
+The code for this assignment can be found [here](https://github.com/dccsillag/s3d-assignment-2).
 
 For this assignment, a simple scene was prepared in Unity. It is composed of:
 
@@ -22,7 +22,7 @@ The same algorithm was used, and the UV mapping was simply $(\theta, t)$ for eve
 
 ## Growing Trees
 
-![](./tree_growing.gif)
+![](./images/tree_growing.gif)
 
 The tree is based on [the Bushes from Assignment 1](https://dccsillag.github.io/coursework/3dGraphicsSystems/Assignment1/index.html#bushes),
 which are generated using a Stochastic L-System on an alphabet with turtle graphics interpretation. The one used there was
@@ -135,12 +135,12 @@ $(0, 0)$, $((1/n) \min \{m - i, n\}, 0)$, $((1/n) \min \{m - i, n\}, 1)$, $(0, 1
 
 ## Screenshots
 
-![](./normal_island.png)
+![](./images/normal_island.png)
 
-![](./one_tree_island0.png)
+![](./images/one_tree_island0.png)
 
-![](./rock_island.png)
+![](./images/rock_island.png)
 
-![](./three_tree_island.png)
+![](./images/three_tree_island.png)
 
-![](./scene_whole.png)
+![](./images/scene_whole.png)
